@@ -46,9 +46,9 @@ class AuthorizationServerFactory {
         $personTokenDays = new \DateInterval('P7D');
         $passport = make(\Richard\HyperfPassport\Passport::class);
         $passport->setClientUuids($this->config->get('passport.client_uuids', false));
-        $passport->tokensExpireIn($this->config->get('passport.token_days', $tokenExpireDays));
-        $passport->refreshTokensExpireIn($this->config->get('passport.refresh_token_days', $refreashTokenExpireDays));
-        $passport->personalAccessTokensExpireIn($this->config->get('passport.person_token_days', $personTokenDays));
+        $passport->tokensExpireIn($this->config->get('passport.token_days', (new \DateTime())->add($tokenExpireDays)));
+        $passport->refreshTokensExpireIn($this->config->get('passport.refresh_token_days', (new \DateTime())->add($refreashTokenExpireDays)));
+        $passport->personalAccessTokensExpireIn($this->config->get('passport.person_token_days', (new \DateTime())->add($personTokenDays)));
         return tap($this->makeAuthorizationServer(), function (\League\OAuth2\Server\AuthorizationServer $server)use($passport) {
             $server->setDefaultScope($passport->defaultScope);
 

@@ -2,11 +2,16 @@
 
 namespace Richard\HyperfPassport\Controller;
 
+use Hyperf\Di\Resolver\ObjectResolver;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\Parser;
 use Richard\HyperfPassport\TokenRepository;
 use Lcobucci\JWT\Parser as JwtParser;
 use League\OAuth2\Server\AuthorizationServer;
 use Nyholm\Psr7\Response as Psr7Response;
 use Psr\Http\Message\ServerRequestInterface;
+use Whyperf\Whyperf;
 
 class AccessTokenController {
 
@@ -40,13 +45,15 @@ class AccessTokenController {
      *
      * @param  \League\OAuth2\Server\AuthorizationServer  $server
      * @param  \Richard\HyperfPassport\TokenRepository  $tokens
-     * @param  \Lcobucci\JWT\Parser  $jwt
      * @return void
      */
     public function __construct(AuthorizationServer $server,
-            TokenRepository $tokens,
-            JwtParser $jwt) {
-        $this->jwt = $jwt;
+            TokenRepository $tokens) {
+        /**
+         * @var Configuration $configuration
+         */
+        $configuration = Whyperf::getContainer()->get(Configuration::class);
+        $this->jwt = $configuration->parser();
         $this->server = $server;
         $this->tokens = $tokens;
     }

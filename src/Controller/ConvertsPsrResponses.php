@@ -13,6 +13,7 @@ trait ConvertsPsrResponses {
      * @return \Hyperf\HttpMessage\Server\Response
      */
     public function convertResponse($psrResponse) {
+        return $psrResponse;
         $headers = $psrResponse->getHeaders();
         $content = $psrResponse->getBody();
         $statusCode = $psrResponse->getStatusCode();

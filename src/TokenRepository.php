@@ -14,7 +14,7 @@ class TokenRepository {
      */
     public function create($attributes) {
         $passport = make(\Richard\HyperfPassport\Passport::class);
-        return $passport->token()->create($attributes);
+        return $passport->token()->fill($attributes);
     }
 
     /**

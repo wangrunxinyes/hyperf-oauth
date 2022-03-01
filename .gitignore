@@ -2,3 +2,7 @@
 composer.lock
 *.cache
 *.log
+.idea/.gitignore
+.idea/hyperf-passport.iml
+.idea/modules.xml
+.idea/php.xml

@@ -7,6 +7,9 @@ use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use RuntimeException;
 use Hyperf\Di\Annotation\Inject;
 use HyperfExt\Hashing\HashManager as HashingHashManager;
+use Whyperf\Authenticator\AbstractDefender;
+use Whyperf\Authenticator\Authenticator;
+use Whyperf\System\CoroutineEnv\CoreGo;
 
 class UserRepository implements UserRepositoryInterface {
 
@@ -20,6 +23,19 @@ class UserRepository implements UserRepositoryInterface {
      * {@inheritdoc}
      */
     public function getUserEntityByUserCredentials($username, $password, $grantType, ClientEntityInterface $clientEntity) {
+
+        /**
+         * @var Authenticator $authenticator
+         */
+        $authenticator = CoreGo::getCoreGo()->getComponent(Authenticator::class);
+
+        /**
+         * @var AbstractDefender $defender
+         */
+        $defender = $authenticator->getAssert();
+
+        return $defender->getUser();
+
         $provider = $clientEntity->provider ?: config('auth.guards.passport.provider');
 
         if (is_null($model = config('auth.providers.' . $provider . '.model'))) {

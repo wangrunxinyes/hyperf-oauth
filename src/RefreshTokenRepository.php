@@ -12,7 +12,7 @@ class RefreshTokenRepository {
      */
     public function create($attributes) {
         $passport = make(\Richard\HyperfPassport\Passport::class);
-        return $passport->refreshToken()->create($attributes);
+        return $passport->refreshToken()->fill($attributes);
     }
 
     /**
